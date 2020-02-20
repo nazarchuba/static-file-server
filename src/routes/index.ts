@@ -12,6 +12,7 @@ router.get('/api/v1/download/:token', async function (req: Request, res: Respons
   if (fileInfo.error) {
     return res.status(400).json({error: fileInfo.error})
   }
+  fileService.removeFileDownload(fileInfo.id);
   const stream = fs.createReadStream(fileInfo.filePath);
   res.setHeader("content-disposition", "attachment; filename=" + fileInfo.fileName);
   stream.on('error', function (e: Error) {

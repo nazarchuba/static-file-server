@@ -18,25 +18,27 @@ export class FileService {
     return `${BATH_PATH}/api/v1/download/${token}`;
   }
 
-  async getFileInfoFromToken (token: string): Promise<{ filePath?: string, fileName?: string, id?: string, error?: string }> {
+  async getFileInfoFromToken (token: string): Promise<{ filePath?: string, fileName?: string, id?: number, error?: string }> {
     let decoded = null;
     if (!token) {
       return {error: 'BAD_TOKEN'};
     }
     try {
-      decoded = jwt.verify(token, JWT_SECRET) as { filePath: string, fileName: string, id: string }
+      decoded = jwt.verify(token, JWT_SECRET) as { filePath: string, fileName: string, id: number }
     } catch (err) {
       return {error: 'BAD_TOKEN'};
     }
     let fileDownload = await FileDownload.findOne({where: {id: decoded['id']}});
     if (fileDownload) {
-      fileDownload.destroy();
       return decoded;
 
     } else {
-      return {error: 'BAD_TOKEN'};
+      return {error: 'DOWNLOAD_EXPIRED'};
 
     }
+  }
+  async removeFileDownload(id:number){
+    return await FileDownload.destroy({where:{id:id}})
   }
 
 }
