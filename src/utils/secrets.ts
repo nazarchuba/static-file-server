@@ -11,4 +11,4 @@ if (fs.existsSync(".env")) {
 export const ENVIRONMENT = process.env.NODE_ENV;
 
 export const JWT_SECRET = process.env["JWT_SECRET"];
-export const BATH_PATH = process.env["BATH_PATH"];
+export const BASE_URL = process.env["BASE_URL"];

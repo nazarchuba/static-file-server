@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import {JWT_SECRET, BATH_PATH} from "../utils/secrets"
+import {JWT_SECRET, BASE_URL} from "../utils/secrets"
 import path from "path";
 import {sequelize, FileDownload} from "../db"
 
@@ -15,7 +15,7 @@ export class FileService {
       expiresIn: '5y'
     });
 
-    return `${BATH_PATH}/api/v1/download/${token}`;
+    return `${BASE_URL}/api/v1/download/${token}`;
   }
 
   async getFileInfoFromToken (token: string): Promise<{ filePath?: string, fileName?: string, id?: number, error?: string }> {
